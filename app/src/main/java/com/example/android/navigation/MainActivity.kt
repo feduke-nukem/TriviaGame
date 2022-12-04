@@ -19,12 +19,35 @@ package com.example.android.navigation
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
 import com.example.android.navigation.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         @Suppress("UNUSED_VARIABLE")
-        val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+
+
+        val binding = DataBindingUtil.setContentView<ActivityMainBinding>(
+            this, R.layout.activity_main
+        )
+        // Finding nav controller for new fragment
+        val navigationController =
+            supportFragmentManager.findFragmentById(R.id.myNavHostFragment)!!
+                .findNavController()
+
+        // Setting back button in action bar
+        NavigationUI.setupActionBarWithNavController(this, navigationController)
+
+    }
+
+    override fun onNavigateUp(): Boolean {
+        val navigationController =
+            supportFragmentManager.findFragmentById(R.id.myNavHostFragment)!!
+                .findNavController()
+
+        return navigationController.navigateUp()
     }
 }
